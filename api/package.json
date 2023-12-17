@@ -35,5 +35,8 @@
     "pdf-parse": "^1.1.1",
     "pg": "^8.11.3",
     "prisma": "^5.3.1"
+  },
+  "optionalDependencies": {
+    "faiss-node": "^0.3.0"
   }
 }
