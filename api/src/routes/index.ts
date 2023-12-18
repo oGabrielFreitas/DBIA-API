@@ -9,4 +9,8 @@ routes.use('/users', userRouter)
 routes.use('/sessions', sessionsRouter)
 routes.use('/files', filesRouter)
 
+routes.get('/', (req, res) => {
+  return res.status(200).json({ message: 'Tudo Ok' })
+})
+
 export { routes }
