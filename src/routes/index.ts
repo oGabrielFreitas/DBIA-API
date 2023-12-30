@@ -5,7 +5,7 @@ import { filesRouter } from './files.routes'
 
 const routes = Router()
 
-// routes.use('/users', userRouter)
+routes.use('/users', userRouter)
 // routes.use('/sessions', sessionsRouter)
 // routes.use('/files', filesRouter)
 
