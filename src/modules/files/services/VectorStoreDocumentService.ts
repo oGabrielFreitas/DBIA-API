@@ -37,7 +37,7 @@ class VectorStoreDocumentService {
     // console.log(savedVector)
 
     // await vectorStore.save('/tempDir/myFile')
-    await vectorStore.save('/tempDir')
+    // await vectorStore.save('/tempDir')
   }
 
   async load({ directory }: LoadInput): Promise<FaissStore> {
