@@ -46,7 +46,9 @@ model FaissDocumentVector {
   fileOwner   UplodadedFile @relation(fields: [fileOwnerId], references: [id])
   fileOwnerId String
 
-  data Bytes
+  // data Bytes
+  docstoreJson Json
+  faissIndex   Bytes
 
   create_at  DateTime @default(now())
   updated_at DateTime @updatedAt

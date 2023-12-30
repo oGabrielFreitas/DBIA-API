@@ -23,24 +23,24 @@ class FileUploadUseCase {
     const loader = new PDFLoader(fileBlob)
     const docs = await loader.load()
 
-    try {
-      // Salva o buffer do arquivo no bando de dados como binário.
-      const savedFile = await MyPrismaClient.uplodadedFile.create({
-        data: {
-          userOwnerId: userId, // ID do usuário que possui o arquivo
-          fileName: file.originalname, // Nome original do arquivo
-          data: file.buffer, // Salvando o buffer no banco de dados
-        },
-      })
+    // try {
+    // Salva o buffer do arquivo no bando de dados como binário.
+    const savedFile = await MyPrismaClient.uplodadedFile.create({
+      data: {
+        userOwnerId: userId, // ID do usuário que possui o arquivo
+        fileName: file.originalname, // Nome original do arquivo
+        data: file.buffer, // Salvando o buffer no banco de dados
+      },
+    })
 
-      // // Chama a função de vector store do FAISS STORE
-      // const vectorStoreService = new VectorStoreDocumentService()
-      // const directory = './teste'
-      // await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
-      // //
-    } catch {
-      throw new Error('Database file saving error!')
-    }
+    // Chama a função de vector store do FAISS STORE
+    const vectorStoreService = new VectorStoreDocumentService()
+    const directory = './teste'
+    await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
+    //
+    // } catch (err) {
+    //   throw new Error('Database file saving error!')
+    // }
 
     return { message: 'Arquivo processado com sucesso!' }
   }
