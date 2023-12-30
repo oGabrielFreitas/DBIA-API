@@ -1,5 +1,6 @@
 import { embeddingsOpenAI } from '../../../config/OpenAIConfig'
 import { FaissStore } from 'langchain/vectorstores/faiss'
+
 import { encode, decode } from '@msgpack/msgpack'
 
 import { Volume } from 'memfs'
