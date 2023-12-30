@@ -16,7 +16,7 @@ const fileRetrivealQAController = new FileRetrivealQAController()
 const upload = multer(DocumentUploadConfig)
 
 // Middlewares
-// filesRouter.use(ensureAuthenticated)
+filesRouter.use(ensureAuthenticated)
 
 // Routes
 filesRouter.post(

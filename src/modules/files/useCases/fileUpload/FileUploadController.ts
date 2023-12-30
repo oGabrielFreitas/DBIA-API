@@ -6,8 +6,6 @@ class FileUploadedController {
     const { file } = request
     const userId = request.user.id
 
-    return response.status(200).json({ message: userId })
-
     const fileUploader = new FileUploadUseCase()
 
     if (!file) {
