@@ -25,34 +25,34 @@ class VectorStoreDocumentService {
   async save({ docs, fileOwnerId }: SaveInput): Promise<void> {
     const vectorStore = await FaissStore.fromDocuments(docs, embeddingsOpenAI)
 
-    // Cria um novo volume (sistema de arquivos em memória)
-    const vol = new Volume()
+    // // Cria um novo volume (sistema de arquivos em memória)
+    // const vol = new Volume()
 
-    // Cria um diretório em memória
-    vol.mkdirSync('/tempDir', { recursive: true })
+    // // Cria um diretório em memória
+    // vol.mkdirSync('/tempDir', { recursive: true })
 
-    // Substitua as funções de leitura/escrita do sistema de arquivos padrão pelas do memfs
-    // Isso é necessário apenas se o método 'save' do FaissStore utiliza funções como fs.writeFileSync internamente
-    const originalWriteFileSync = fs.writeFileSync
-    const originalReadFileSync = fs.readFileSync
-    fs.writeFileSync = vol.writeFileSync.bind(vol)
-    fs.readFileSync = vol.readFileSync.bind(vol)
+    // // Substitua as funções de leitura/escrita do sistema de arquivos padrão pelas do memfs
+    // // Isso é necessário apenas se o método 'save' do FaissStore utiliza funções como fs.writeFileSync internamente
+    // const originalWriteFileSync = fs.writeFileSync
+    // const originalReadFileSync = fs.readFileSync
+    // fs.writeFileSync = vol.writeFileSync.bind(vol)
+    // fs.readFileSync = vol.readFileSync.bind(vol)
 
-    // // Salva o buffer do arquivo no bando de dados como binário.
-    // const savedVector = await MyPrismaClient.faissDocumentVector.create({
-    //   data: {
-    //     fileOwnerId, // ID do usuário que possui o arquivo
-    //     data: jsonBuffer, // Salvando o buffer no banco de dados
-    //   },
-    // })
+    // // // Salva o buffer do arquivo no bando de dados como binário.
+    // // const savedVector = await MyPrismaClient.faissDocumentVector.create({
+    // //   data: {
+    // //     fileOwnerId, // ID do usuário que possui o arquivo
+    // //     data: jsonBuffer, // Salvando o buffer no banco de dados
+    // //   },
+    // // })
 
-    // console.log(savedVector)
+    // // console.log(savedVector)
 
-    await vectorStore.save('/tempDir/myFile')
+    // await vectorStore.save('/tempDir/myFile')
 
-    // Restaurar as funções originais após a operação
-    fs.writeFileSync = originalWriteFileSync
-    fs.readFileSync = originalReadFileSync
+    // // Restaurar as funções originais após a operação
+    // fs.writeFileSync = originalWriteFileSync
+    // fs.readFileSync = originalReadFileSync
   }
 
   async load({ directory }: LoadInput): Promise<FaissStore> {
