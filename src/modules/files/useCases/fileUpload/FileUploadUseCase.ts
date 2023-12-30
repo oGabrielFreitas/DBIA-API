@@ -37,7 +37,6 @@ class FileUploadUseCase {
     const vectorStoreService = new VectorStoreDocumentService()
     const directory = './teste'
     await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
-    // await vectorStoreService.save({ docs, fileOwnerId: 'lazarento' })
 
     //
     // } catch (err) {
