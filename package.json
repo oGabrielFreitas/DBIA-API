@@ -39,8 +39,5 @@
     "pg": "^8.11.3",
     "prisma": "^5.3.1",
     "faiss-node": "0.5.1"
-  },
-  "optionalDependencies": {
-    "faiss-node": "^0.3.0"
   }
 }
