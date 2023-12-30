@@ -33,10 +33,10 @@ class FileUploadUseCase {
       },
     })
 
-    // Chama a função de vector store do FAISS STORE
-    const vectorStoreService = new VectorStoreDocumentService()
-    const directory = './teste'
-    await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
+    // // Chama a função de vector store do FAISS STORE
+    // const vectorStoreService = new VectorStoreDocumentService()
+    // const directory = './teste'
+    // await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
 
     //
     // } catch (err) {
