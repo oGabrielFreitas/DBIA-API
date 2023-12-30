@@ -1,10 +1,22 @@
-import { type User } from '@prisma/client'
+// import { type User } from '@prisma/client'
 import { MyPrismaClient } from '../../../../config/PrismaClientConfig'
 import { type CreateUserDto } from '../../dtos/CreateUserDto'
 import { hash } from 'bcryptjs'
 
+interface UserCreated {
+  id: string | null
+  email: string | null
+  name: string | null
+  create_at: Date | null
+  updated_at: Date | null
+}
+
 export class CreateUserUseCase {
-  async execute({ name, email, password }: CreateUserDto): Promise<User> {
+  async execute({
+    name,
+    email,
+    password,
+  }: CreateUserDto): Promise<UserCreated> {
     // Verificar se o usuário já existe
     const userAlreadyExists = await MyPrismaClient.user.findUnique({
       where: {
@@ -28,6 +40,8 @@ export class CreateUserUseCase {
         password: hashedPassword,
       },
     })
+
+    delete user.password
 
     return user
   }

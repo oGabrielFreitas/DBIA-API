@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { FileUploadedController } from '../modules/files/useCases/fileUpload/FileUploadController'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import multer from 'multer'
-import UploadConfig from '../config/UploadConfig'
+import { DocumentUploadConfig } from '../config/UploadConfig'
 import { FileRetrivealQAController } from '../modules/files/useCases/fileRetrivealQA/FileRetrivealQAController'
 
 // Router
@@ -13,10 +13,10 @@ const fileUploadController = new FileUploadedController()
 const fileRetrivealQAController = new FileRetrivealQAController()
 
 // Consts
-const upload = multer(UploadConfig)
+const upload = multer(DocumentUploadConfig)
 
 // Middlewares
-// filesRouter.use(ensureAuthenticated)
+filesRouter.use(ensureAuthenticated)
 
 // Routes
 filesRouter.post(

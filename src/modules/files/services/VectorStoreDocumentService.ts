@@ -3,9 +3,11 @@ import { FaissStore } from 'langchain/vectorstores/faiss'
 
 import { type Document } from 'langchain/dist/document'
 
+import { MyPrismaClient } from '../../../config/PrismaClientConfig'
+
 interface SaveInput {
   docs: Document[]
-  directory: string
+  fileOwnerId: string
 }
 
 interface LoadInput {
@@ -13,12 +15,20 @@ interface LoadInput {
 }
 
 class VectorStoreDocumentService {
-  async save({ docs, directory }: SaveInput): Promise<void> {
+  async save({ docs, fileOwnerId }: SaveInput): Promise<void> {
     const vectorStore = await FaissStore.fromDocuments(docs, embeddingsOpenAI)
 
-    console.log(vectorStore)
+    // console.log(vectorStore)
 
-    await vectorStore.save(directory)
+    // Salva o buffer do arquivo no bando de dados como binário.
+    const savedVector = await MyPrismaClient.faissDocumentVector.create({
+      data: {
+        fileOwnerId, // ID do usuário que possui o arquivo
+        data: file.buffer, // Salvando o buffer no banco de dados
+      },
+    })
+
+    await vectorStore.save(fileOwnerId)
   }
 
   async load({ directory }: LoadInput): Promise<FaissStore> {

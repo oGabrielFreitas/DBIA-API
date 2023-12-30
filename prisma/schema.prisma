@@ -11,59 +11,45 @@ datasource db {
 }
 
 model User {
-  id             String           @id @default(uuid())
-  email          String           @unique
+  id             String          @id @default(uuid())
+  email          String          @unique
   name           String
   password       String
-  create_at      DateTime         @default(now())
-  updated_at     DateTime         @updatedAt
-  MovieRent      MovieRent[]
-  UplodadedFiles UplodadedFiles[]
+  create_at      DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+  UplodadedFiles UplodadedFile[]
 
   @@map("users") // Renomeia a table para users, dentro do banco
 }
 
 // ----------------------------------------------------------
 
-model Movie {
-  id           String      @id @default(uuid())
-  title        String      @unique
-  duration     Int
-  release_date DateTime
-  MovieRent    MovieRent[]
-
-  @@map("movies")
-}
-
-// Criando uma relação de ids:
-model MovieRent {
-  // Faz a relação entre o userId local e o id da classe User
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-  movie   Movie  @relation(fields: [movieId], references: [id])
-  movieId String
-
-  // Mescla os dois Ids, para criar um id relacional para a classe MovieRent
-  @@id([userId, movieId])
-}
-
-// ----------------------------------------------------------
-
-// Upload de Imagens
-model UplodadedFiles {
-  id          String   @id @default(uuid())
-  userOwner   User     @relation(fields: [userOwnerId], references: [id])
+// Arquivo upado em bytes
+model UplodadedFile {
+  id          String @id @default(uuid())
+  userOwner   User   @relation(fields: [userOwnerId], references: [id])
   userOwnerId String
-  create_at   DateTime @default(now())
-  updated_at  DateTime @updatedAt
 
-  @@map("uploaded_files")
+  fileName String
+  data     Bytes
+
+  create_at           DateTime              @default(now())
+  updated_at          DateTime              @updatedAt
+  FaissDocumentVector FaissDocumentVector[]
+
+  @@map("uploaded_file")
 }
 
-// Vector Store
-model Document {
-  id        String                 @id @default(uuid())
-  content   String
-  namespace String?                @default("default")
-  vector    Unsupported("vector")?
+// Arquivo em vetor Faiss
+model FaissDocumentVector {
+  id          String        @id @default(uuid())
+  fileOwner   UplodadedFile @relation(fields: [fileOwnerId], references: [id])
+  fileOwnerId String
+
+  data Bytes
+
+  create_at  DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("faiss_documents")
 }

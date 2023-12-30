@@ -47,7 +47,7 @@ class FileRetrivealQAUseCase {
       verbose: false,
     })
 
-    console.log(chain)
+    // console.log(chain)
 
     const chainAnswer = await chain.call({
       query,

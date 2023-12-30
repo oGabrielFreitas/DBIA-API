@@ -4,6 +4,7 @@ import { FileUploadUseCase } from './FileUploadUseCase'
 class FileUploadedController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { file } = request
+    const userId = request.user.id
 
     const fileUploader = new FileUploadUseCase()
 
@@ -12,8 +13,8 @@ class FileUploadedController {
     }
 
     try {
-      await fileUploader.execute({ file })
-      return response.status(200).send()
+      const message = await fileUploader.execute({ userId, file })
+      return response.status(200).json(message)
     } catch (err) {
       return response.status(400).json({ message: err.message })
     }
