@@ -3,9 +3,10 @@ import { FileUploadUseCase } from './FileUploadUseCase'
 
 class FileUploadedController {
   async handle(request: Request, response: Response): Promise<Response> {
-    return response.status(200).json({ message: 'Veio aqui' })
     const { file } = request
     const userId = request.user.id
+
+    return response.status(200).json({ message: userId })
 
     const fileUploader = new FileUploadUseCase()
 
