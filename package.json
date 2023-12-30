@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "ts-node-dev --inspect --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
     "vercel-build": "npx prisma migrate deploy"
   },
