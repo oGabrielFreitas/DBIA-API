@@ -41,7 +41,7 @@ export class CreateUserUseCase {
       },
     })
 
-    delete user.password
+    // delete user.password
 
     return user
   }
