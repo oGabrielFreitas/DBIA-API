@@ -26,21 +26,6 @@ class VectorStoreDocumentService {
   async save({ docs, fileOwnerId }: SaveInput): Promise<void> {
     const vectorStore = await FaissStore.fromDocuments(docs, embeddingsOpenAI)
 
-    // Cria um novo volume (sistema de arquivos em memória)
-    const vol = new Volume()
-
-    // Cria um diretório em memória
-    const diretorioMemoria = vol.mkdirSync('/tempDir', { recursive: true })
-
-    console.log(`diretorio: ${diretorioMemoria}`)
-
-    // Substitua as funções de leitura/escrita do sistema de arquivos padrão pelas do memfs
-    // Isso é necessário apenas se o método 'save' do FaissStore utiliza funções como fs.writeFileSync internamente
-    const originalWriteFileSync = fs.writeFileSync
-    const originalReadFileSync = fs.readFileSync
-    fs.writeFileSync = vol.writeFileSync.bind(vol)
-    fs.readFileSync = vol.readFileSync.bind(vol)
-
     // // Salva o buffer do arquivo no bando de dados como binário.
     // const savedVector = await MyPrismaClient.faissDocumentVector.create({
     //   data: {
@@ -53,10 +38,6 @@ class VectorStoreDocumentService {
 
     // await vectorStore.save('/tempDir/myFile')
     await vectorStore.save('/tempDir')
-
-    // Restaurar as funções originais após a operação
-    fs.writeFileSync = originalWriteFileSync
-    fs.readFileSync = originalReadFileSync
   }
 
   async load({ directory }: LoadInput): Promise<FaissStore> {
