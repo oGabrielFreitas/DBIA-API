@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --outDir ./build",
-    "dev": "ts-node-dev --inspect --exit-child --transpile-only --ignore-watch node_modules src/server.ts"
+    // "build": "tsc --outDir ./build",
+    "dev": "ts-node-dev --inspect --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
+    "vercel-build": "npx prisma migrate deploy"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
