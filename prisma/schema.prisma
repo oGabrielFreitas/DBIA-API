@@ -46,17 +46,13 @@ model FaissDocumentVector {
   fileOwner   UplodadedFile @relation(fields: [fileOwnerId], references: [id])
   fileOwnerId String
 
-  // data Bytes
-  docstoreJson Json
-  faissIndex   Bytes
-
   create_at  DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("faiss_documents")
 }
 
-model Document {
+model DocumentVector {
   id      String                 @id @default(cuid())
   content String
   vector  Unsupported("vector")?

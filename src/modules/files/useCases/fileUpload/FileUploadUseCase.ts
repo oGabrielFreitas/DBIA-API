@@ -23,6 +23,8 @@ class FileUploadUseCase {
     const loader = new PDFLoader(fileBlob)
     const docs = await loader.load()
 
+    // return docs
+
     // try {
     // Salva o buffer do arquivo no bando de dados como binário.
     const savedFile = await MyPrismaClient.uplodadedFile.create({

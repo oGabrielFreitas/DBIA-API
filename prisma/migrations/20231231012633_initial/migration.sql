@@ -26,12 +26,19 @@ CREATE TABLE "uploaded_file" (
 CREATE TABLE "faiss_documents" (
     "id" TEXT NOT NULL,
     "fileOwnerId" TEXT NOT NULL,
-    "docstoreJson" JSONB NOT NULL,
-    "faissIndex" BYTEA NOT NULL,
     "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "faiss_documents_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DocumentVector" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "vector" vector,
+
+    CONSTRAINT "DocumentVector_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
