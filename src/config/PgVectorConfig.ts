@@ -6,7 +6,7 @@ import { URL } from 'url'
 const dbUrl = process.env.DATABASE_URL ?? ''
 const parsedUrl = new URL(dbUrl)
 
-const pgConfig2 = {
+const pgConfig = {
   postgresConnectionOptions: {
     type: 'postgres',
     host: parsedUrl.hostname,
@@ -14,6 +14,7 @@ const pgConfig2 = {
     user: parsedUrl.username,
     password: parsedUrl.password,
     database: parsedUrl.pathname.split('/')[1],
+    ssl: true,
   } as PoolConfig,
 
   // Definições da tabela que armazena documentos vetorizados (embeddings)
@@ -28,7 +29,7 @@ const pgConfig2 = {
 
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env
 
-const pgConfig = {
+const pgConfig2 = {
   postgresConnectionOptions: {
     type: 'postgres',
     host: PGHOST,
@@ -36,7 +37,7 @@ const pgConfig = {
     user: PGUSER,
     database: PGDATABASE,
     password: PGPASSWORD,
-    sslmode: 'require',
+    ssl: true,
     // ssl: 'require',
   } as PoolConfig,
 
