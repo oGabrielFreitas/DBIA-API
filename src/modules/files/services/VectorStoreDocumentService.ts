@@ -16,6 +16,8 @@ interface LoadInput {
 
 class VectorStoreDocumentService {
   async save({ docs }: SaveInput): Promise<void> {
+    console.log('OK - Chamou Função')
+
     const pgvectorStore = await PGVectorStore.initialize(
       embeddingsOpenAI,
       pgConfig,

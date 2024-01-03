@@ -45,7 +45,8 @@ class FileUploadUseCase {
         docs,
       })
     } catch (err) {
-      throw new Error('Database file saving error!')
+      throw new Error(err.message)
+      // throw new Error('Database file saving error!')
     }
 
     return { message: 'Arquivo processado com sucesso!' }
