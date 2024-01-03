@@ -3,8 +3,6 @@ import { MyPrismaClient } from '../../../../config/PrismaClientConfig'
 
 import { VectorStoreDocumentService } from '../../services/VectorStoreDocumentService'
 
-// import fs from 'fs'
-
 interface FileUpload {
   userId: string
   file: Express.Multer.File
@@ -23,27 +21,30 @@ class FileUploadUseCase {
     const loader = new PDFLoader(fileBlob)
     const docs = await loader.load()
 
-    // return docs
+    try {
+      // Salva o buffer do arquivo no banco de dados como binário.
+      const savedFile = await MyPrismaClient.uplodadedFile.create({
+        data: {
+          user_owner_id: userId, // ID do usuário que possui o arquivo
+          file_name: file.originalname, // Nome original do arquivo
+          data_bytes: file.buffer, // Salvando o buffer no banco de dados
+        },
+      })
 
-    // try {
-    // Salva o buffer do arquivo no bando de dados como binário.
-    const savedFile = await MyPrismaClient.uplodadedFile.create({
-      data: {
-        userOwnerId: userId, // ID do usuário que possui o arquivo
-        fileName: file.originalname, // Nome original do arquivo
-        data: file.buffer, // Salvando o buffer no banco de dados
-      },
-    })
+      // Adiciona o id do usuário e o id do arquivo salvo à metadata do arquivo
+      docs.forEach((splittedPage) => {
+        splittedPage.metadata.userOwnerId = userId
+        splittedPage.metadata.savedFileId = savedFile.id
+      })
 
-    // Chama a função de vector store do FAISS STORE
-    const vectorStoreService = new VectorStoreDocumentService()
-    const directory = './teste'
-    await vectorStoreService.save({ docs, fileOwnerId: savedFile.id })
-
-    //
-    // } catch (err) {
-    //   throw new Error('Database file saving error!')
-    // }
+      // Chama a função de vector store do PG VECTOR
+      const vectorStoreService = new VectorStoreDocumentService()
+      await vectorStoreService.save({
+        docs,
+      })
+    } catch (err) {
+      throw new Error('Database file saving error!')
+    }
 
     return { message: 'Arquivo processado com sucesso!' }
   }
