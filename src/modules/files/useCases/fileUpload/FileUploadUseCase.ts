@@ -37,6 +37,8 @@ class FileUploadUseCase {
         splittedPage.metadata.savedFileId = savedFile.id
       })
 
+      console.log('OK - Metadata')
+
       // Chama a função de vector store do PG VECTOR
       const vectorStoreService = new VectorStoreDocumentService()
       await vectorStoreService.save({

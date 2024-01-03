@@ -20,8 +20,13 @@ class VectorStoreDocumentService {
       embeddingsOpenAI,
       pgConfig,
     )
+    console.log('OK - Pg connection')
+
     await pgvectorStore.addDocuments(docs)
+    console.log('OK - Documento Adicionado')
+
     await pgvectorStore.end()
+    console.log('OK - Pg End')
   }
 
   async load(): Promise<PGVectorStore> {
