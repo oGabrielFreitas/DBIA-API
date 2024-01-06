@@ -42,7 +42,7 @@ class VectorStoreDocumentService {
         },
       },
     })
-    return getEmbeddings.length + 1
+    return getEmbeddings.length
   }
 }
 
