@@ -5,7 +5,7 @@ class FileUploadedController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { file } = request
     const userId = request.user.id
-    // const collectionId = request.body.collection_id // Implementar depois
+    // const collectionId = request.body.collection_id // Implementar depois...
 
     const fileUploader = new FileUploadUseCase()
 
