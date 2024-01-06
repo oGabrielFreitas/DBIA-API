@@ -14,7 +14,7 @@ const pgConfig = {
     user: parsedUrl.username,
     password: parsedUrl.password,
     database: parsedUrl.pathname.split('/')[1],
-    ssl: false,
+    ssl: true,
   } as PoolConfig,
 
   // Definições da tabela que armazena documentos vetorizados (embeddings)
