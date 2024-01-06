@@ -7,8 +7,8 @@ const app = express()
 // Add a list of allowed origins.
 // If you have more origins you would like to add, you can add them to the array below.
 const allowedOrigins = [
-  'http://localhost:5173',
-  'https://dbia.gabrielfreitas.com/',
+  // 'http://localhost:5173',
+  'https://dbia.gabrielfreitas.com',
 ]
 
 const options: cors.CorsOptions = {
