@@ -37,16 +37,27 @@ class FileUploadUseCase {
         splittedPage.metadata.savedFileId = savedFile.id
       })
 
-      console.log('OK - Metadata')
-
       // Chama a função de vector store do PG VECTOR
       const vectorStoreService = new VectorStoreDocumentService()
       await vectorStoreService.save({
         docs,
       })
+
+      // Atualiza o tamanho de embeddings do documento atual
+      const embeddingsSize = await vectorStoreService.listEmbeddingsByDocument(
+        savedFile.id,
+      )
+      await MyPrismaClient.uplodadedFile.update({
+        where: {
+          id: savedFile.id,
+        },
+        data: {
+          embeddings_useds: embeddingsSize,
+        },
+      })
     } catch (err) {
       throw new Error(err.message)
-      // throw new Error('Database file saving error!')
+      throw new Error('Database file saving error!')
     }
 
     return { message: 'Arquivo processado com sucesso!' }

@@ -6,6 +6,8 @@ import { PromptTemplate } from 'langchain/prompts'
 interface FileRetrivealQA_DTO {
   query: string
   userId: string
+
+  UFSM_FLAG: boolean
 }
 
 interface FileRetrivealQA_Response_DTO {
@@ -16,19 +18,34 @@ class FileRetrivealQAUseCase {
   async execute({
     query,
     userId,
+    UFSM_FLAG,
   }: FileRetrivealQA_DTO): Promise<FileRetrivealQA_Response_DTO> {
     const vectorStoreService = new VectorStoreDocumentService()
 
     const vectorStore = await vectorStoreService.load()
 
-    const template = `
-    Você é um chatbot que foi treinado para realizar atendimento e tirar dúvidas sobre a Universidade Federal de Santa Maria.
-    Use o contexto abaixo para tentar encontrar a melhor resposta possível, se disponível, cite também o artigo relacionado.
-    Se não encontrar resposta, não invente, apenas diga que deve entrar em contato pelo e-mail contato@ufsm.br
+    let template = ``
 
-    Contexto: {context}
+    if (UFSM_FLAG) {
+      template = `
+      Você é um chatbot que foi treinado para realizar atendimento e tirar dúvidas sobre a Universidade Federal de Santa Maria.
+      Use o contexto abaixo para tentar encontrar a melhor resposta possível, se disponível, cite também o artigo relacionado.
+      Se não encontrar resposta, não invente, apenas diga que deve entrar em contato pelo e-mail contato@ufsm.br
 
-    Question: {question}?`
+      Contexto: {context}
+
+      Question: {question}?`
+    } else {
+      template = `
+      Você é um chatbot que foi treinado para realizar análise a interpretação de contextos de bancos de dados vetorizados, como arquivos PDF, CSV, MySql entre outros.
+      Use o contexto abaixo para tentar encontrar a melhor resposta possível, se disponível.
+      Se não encontrar resposta, não invente, mas você pode tentar fazer buscar em sua base para referências.
+      Se for perguntado sobre a sua função como chatbot, ignore o contexto abaixo.
+
+      Contexto: {context}
+
+      Question: {question}?`
+    }
 
     const QA_CHAIN_PROMPT = new PromptTemplate({
       inputVariables: ['context', 'question'],
@@ -52,7 +69,7 @@ class FileRetrivealQAUseCase {
         userOwnerId: userId,
       }),
       returnSourceDocuments: true,
-      verbose: true,
+      verbose: false,
     })
 
     // console.log(chain)

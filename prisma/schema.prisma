@@ -53,8 +53,9 @@ model UplodadedFile {
   // collection_owner    Collection @relation(fields: [collection_owner_id], references: [id])
   // collection_owner_id String
 
-  file_name  String
-  data_bytes Bytes
+  file_name        String
+  data_bytes       Bytes
+  embeddings_useds Int?
 
   create_at  DateTime @default(now())
   updated_at DateTime @updatedAt

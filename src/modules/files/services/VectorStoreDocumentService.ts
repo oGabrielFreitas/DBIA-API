@@ -1,9 +1,9 @@
 import { embeddingsOpenAI } from '../../../config/OpenAIConfig'
-import { FaissStore } from 'langchain/vectorstores/faiss'
 import { Document } from 'langchain/dist/document'
 import { PGVectorStore } from 'langchain/vectorstores/pgvector'
 
 import { pgConfig } from '../../../config/PgVectorConfig'
+import { MyPrismaClient } from '../../../config/PrismaClientConfig'
 
 interface SaveInput {
   docs: Document[]
@@ -15,11 +15,12 @@ interface LoadInput {
 }
 
 class VectorStoreDocumentService {
+  private async connect() {
+    return await PGVectorStore.initialize(embeddingsOpenAI, pgConfig)
+  }
+
   async save({ docs }: SaveInput): Promise<void> {
-    const pgvectorStore = await PGVectorStore.initialize(
-      embeddingsOpenAI,
-      pgConfig,
-    )
+    const pgvectorStore = await this.connect()
 
     await pgvectorStore.addDocuments(docs)
 
@@ -27,14 +28,21 @@ class VectorStoreDocumentService {
   }
 
   async load(): Promise<PGVectorStore> {
-    // const loadedVectorStore = await FaissStore.load(directory, embeddingsOpenAI)
-
-    const pgvectorStore = await PGVectorStore.initialize(
-      embeddingsOpenAI,
-      pgConfig,
-    )
+    const pgvectorStore = await this.connect()
 
     return pgvectorStore
+  }
+
+  async listEmbeddingsByDocument(fileId: string): Promise<number> {
+    const getEmbeddings = await MyPrismaClient.documentVector.findMany({
+      where: {
+        metadata: {
+          path: ['savedFileId'],
+          equals: fileId,
+        },
+      },
+    })
+    return getEmbeddings.length + 1
   }
 }
 

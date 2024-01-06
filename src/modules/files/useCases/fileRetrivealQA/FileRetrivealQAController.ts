@@ -3,13 +3,17 @@ import { FileRetrivealQAUseCase } from './FileRetrivealQAUseCase'
 
 class FileRetrivealQAController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { query } = request.body
+    const { query, UFSM_FLAG } = request.body
     const userId = request.user.id
+
+    if (!userId) {
+      return response.status(400).json({ message: 'Usuário inválido!' })
+    }
 
     const fileRetrivealQA = new FileRetrivealQAUseCase()
 
     try {
-      const answer = await fileRetrivealQA.execute({ query, userId })
+      const answer = await fileRetrivealQA.execute({ query, userId, UFSM_FLAG })
 
       return response.status(200).json(answer)
     } catch (err) {

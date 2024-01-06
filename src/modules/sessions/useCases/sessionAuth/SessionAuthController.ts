@@ -12,7 +12,10 @@ export class SessionAuthController {
 
       return res.status(200).json(sessionAuthResponse)
     } catch (error) {
-      return res.status(400).json({ message: error.message })
+      // return res.status(400).json({ message: error.message })
+      return res
+        .status(400)
+        .json({ message: 'Não foi possível realizar o login!' })
     }
   }
 }
