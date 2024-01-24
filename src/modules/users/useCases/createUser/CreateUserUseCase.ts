@@ -7,11 +7,20 @@ interface UserCreated {
   id: string | null
   email: string | null
   name: string | null
+  user_type: string | null
   create_at: Date | null
   updated_at: Date | null
 }
 
+/**
+ * Classe que cria usuário
+ */
 export class CreateUserUseCase {
+  /**
+   *
+   * @param {CreateUserDto}
+   * @returns {UserCreated} Usuário criado, sem mostrar a hash da senha
+   */
   async execute({
     name,
     email,
@@ -39,9 +48,15 @@ export class CreateUserUseCase {
         email,
         password: hashedPassword,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        user_type: true,
+        create_at: true,
+        updated_at: true,
+      },
     })
-
-    delete user.password
 
     return user
   }

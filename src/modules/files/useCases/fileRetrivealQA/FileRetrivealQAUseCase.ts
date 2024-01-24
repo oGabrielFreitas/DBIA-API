@@ -26,6 +26,7 @@ class FileRetrivealQAUseCase {
 
     let template = ``
 
+    // if (true) {
     if (UFSM_FLAG) {
       template = `
       Você é um chatbot que foi treinado para realizar atendimento e tirar dúvidas sobre a Universidade Federal de Santa Maria.
@@ -69,7 +70,7 @@ class FileRetrivealQAUseCase {
         userOwnerId: userId,
       }),
       returnSourceDocuments: true,
-      verbose: false,
+      verbose: true,
     })
 
     // console.log(chain)

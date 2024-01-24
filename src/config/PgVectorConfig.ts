@@ -5,6 +5,14 @@ import { URL } from 'url'
 // Lógica para usar as mesmas informações da env query DATABASE_URL do prisma
 const dbUrl = process.env.DATABASE_URL ?? ''
 const parsedUrl = new URL(dbUrl)
+const devMode = process.env.DEV_MODE
+
+const sslMode = () => {
+  if (devMode === 'true') {
+    return false
+  }
+  return true
+}
 
 const pgConfig = {
   postgresConnectionOptions: {
@@ -14,7 +22,7 @@ const pgConfig = {
     user: parsedUrl.username,
     password: parsedUrl.password,
     database: parsedUrl.pathname.split('/')[1],
-    ssl: true,
+    ssl: sslMode(),
   } as PoolConfig,
 
   // Definições da tabela que armazena documentos vetorizados (embeddings)

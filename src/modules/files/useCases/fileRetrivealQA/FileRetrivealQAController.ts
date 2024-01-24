@@ -2,6 +2,12 @@ import { type Request, type Response } from 'express'
 import { FileRetrivealQAUseCase } from './FileRetrivealQAUseCase'
 
 class FileRetrivealQAController {
+  /**
+   *
+   * @param request
+   * @param response
+   * @returns Resposta do FileRetrivealQAUseCase
+   */
   async handle(request: Request, response: Response): Promise<Response> {
     const { query, UFSM_FLAG } = request.body
     const userId = request.user.id

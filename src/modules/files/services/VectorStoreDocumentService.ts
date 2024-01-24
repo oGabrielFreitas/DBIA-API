@@ -13,6 +13,11 @@ interface LoadInput {
   query: string
   userId: string
 }
+interface PgVectorSimilaritySearchParams {
+  query: string
+  userId: string
+  pagesToSearch: number
+}
 
 class VectorStoreDocumentService {
   private async connect() {
@@ -33,6 +38,11 @@ class VectorStoreDocumentService {
     return pgvectorStore
   }
 
+  /**
+   * Lista a quantidade de linhas de embeddings associados à um documento, existentes no banco de dados
+   * @param fileId Id do documento
+   * @returns Quantidade de embeddings
+   */
   async listEmbeddingsByDocument(fileId: string): Promise<number> {
     const getEmbeddings = await MyPrismaClient.documentVector.findMany({
       where: {
@@ -43,6 +53,28 @@ class VectorStoreDocumentService {
       },
     })
     return getEmbeddings.length
+  }
+
+  async pgVectorSimilaritySearch({
+    query,
+    userId,
+    pagesToSearch,
+  }: PgVectorSimilaritySearchParams): Promise<Document[]> {
+    // corpo da função...
+    const pgvectorStore = await this.connect()
+
+    const results = await pgvectorStore.similaritySearch(
+      // Query buscada
+      query,
+      // Número de conxtextos retornados
+      pagesToSearch,
+      // Filtro por userOwnerId
+      {
+        userOwnerId: userId,
+      },
+    )
+
+    return results
   }
 }
 

@@ -31,7 +31,7 @@ class FileUploadUseCase {
         },
       })
 
-      // Adiciona o id do usuário e o id do arquivo salvo à metadata do arquivo
+      // Adiciona o id do usuário e o id do arquivo salvo à metadata das páginas do arquivo
       docs.forEach((splittedPage) => {
         splittedPage.metadata.userOwnerId = userId
         splittedPage.metadata.savedFileId = savedFile.id
