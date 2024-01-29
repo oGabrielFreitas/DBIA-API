@@ -21,9 +21,9 @@ class TransformersRetrivealQAUseCase {
   }: FileRetrivealQA_DTO): Promise<FileRetrivealQA_Response_DTO> {
     async function llmCall(data) {
       const response = await fetch(
-        // 'https://api-inference.huggingface.co/models/timpal0l/mdeberta-v3-base-squad2',
-        // 'https://api-inference.huggingface.co/models/oGabrielFreitas/roberta-teste',
-        'https://api-inference.huggingface.co/models/deepset/roberta-base-squad2',
+        'https://api-inference.huggingface.co/models/timpal0l/mdeberta-v3-base-squad2',
+        // 'https://api-inference.huggingface.co/models/oGabrielFreitas/roberta-ufsm-qa',
+        // 'https://api-inference.huggingface.co/models/deepset/roberta-base-squad2',
         {
           headers: {
             Authorization: 'Bearer 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',
@@ -60,9 +60,17 @@ class TransformersRetrivealQAUseCase {
     const resposta = await llmCall({
       inputs: {
         question: query,
-        context: JSON.stringify(vectorStore),
+        // context: `Página 1: ${JSON.stringify(vectorStore[0].pageContent)}`,
+        context: JSON.stringify(`
+        Parágrafo único – Ficam vinculados à Pró-Reitoria de Administração, para fins
+        de supervisão administrativa, os seguintes órgãos: Departamento de Pessoal, Departamento
+        de Material e Patrimônio, Departamento de Contabilidade e Finanças, Núcleo de
+        Processamento de Dados, Prefeitura da Cidade Universitária, Imprensa Universitária e
+        Biblioteca Central.`),
       },
     })
+
+    console.log(JSON.stringify(vectorStore[0].pageContent))
 
     return { answer: resposta.answer }
 

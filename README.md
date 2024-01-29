@@ -15,7 +15,7 @@
 ---
 
 <p align="center"> An API under construction, about responding to Databases, in an intelligent way
-    <br> 
+    <br>
 </p>
 
 ## 📝 Table of Contents
@@ -216,4 +216,3 @@ Not deployed yet.
 ## ✍️ Authors <a name = "authors"></a>
 
 - [@oGabrielFreitas](https://github.com/oGabrielFreitas)
-- [@vbsantos](https://github.com/vbsantos)

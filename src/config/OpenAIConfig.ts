@@ -1,6 +1,8 @@
 import { OpenAI } from 'langchain/llms/openai'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 
+import { OpenAI as opeanai } from 'openai'
+
 import 'dotenv/config'
 
 const llmModel = new OpenAI({
@@ -13,4 +15,6 @@ const embeddingsOpenAI = new OpenAIEmbeddings({
   openAIApiKey: process.env.OPENAI_API_KEY,
 })
 
-export { llmModel, embeddingsOpenAI }
+const OpenAIApi = new opeanai({ apiKey: process.env.OPENAI_API_KEY })
+
+export { llmModel, embeddingsOpenAI, OpenAIApi }
